@@ -1,0 +1,6 @@
+Flask
+numpy
+matplotlib
+opencv-python
+Pillow
+gunicorn
