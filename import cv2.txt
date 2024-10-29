@@ -1,0 +1,22 @@
+import cv2
+import matplotlib.pyplot as plt
+
+# Read the image in grayscale
+image = cv2.imread('map.jpeg', cv2.IMREAD_GRAYSCALE)
+
+# Apply binary threshold
+_, binary_image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY)
+
+# Apply edge detection
+edges = cv2.Canny(image, 100, 200)
+
+# Function to display images in Google Colab
+def show_image(title, img):
+    plt.figure()
+    plt.title(title)
+    plt.imshow(img, cmap='gray')
+    plt.axis('off')
+    plt.show()
+
+# Display images
+show_image('Binary Map', binary_image)
