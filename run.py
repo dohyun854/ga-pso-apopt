@@ -7,7 +7,7 @@ UPLOAD_FOLDER = 'static/uploads'
 OUTPUT_FOLDER = 'static/outputs'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Upload 및 결과 디렉터리 생성
+# Create upload and output directories if they don't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
@@ -24,14 +24,14 @@ def process_image():
     if file.filename == '':
         return redirect(url_for('index'))
 
-    # AP 개수는 폼에서 받음
+    # Get AP count from form
     ap_count = int(request.form.get('ap_count', 3))
 
-    # 이미지 저장 및 경로 설정
+    # Save the uploaded image
     image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(image_path)
 
-    # 이미지 처리
+    # Process the image and get the output path
     output_path = process_image_for_ap_placement(image_path, OUTPUT_FOLDER, ap_count=ap_count)
 
     return render_template('result.html', output_image=output_path)
