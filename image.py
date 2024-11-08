@@ -16,8 +16,3 @@ def extract_all_wall_coordinates(image_path):
                 wall_coordinates.append((x, y))
     
     return wall_coordinates
-
-# 예시 사용
-image_path = 'path_to_your_image.png'
-wall_coordinates = extract_all_wall_coordinates(image_path)
-print("벽의 모든 픽셀 좌표:", wall_coordinates)
