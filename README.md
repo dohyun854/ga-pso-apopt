@@ -1,6 +1,6 @@
 ### 목적 함수
 
-$\text{min } σ(I_{h(a,b)})$
+$min \ \sqrt{\frac{\sum_{i=1}^{n} (m - I_i)^2}{n}}$
 $I_{h(a,b)}=\sum_{i=1}^{n}I_i$
 $I_{j(a,b)} = 20 \cdot \log d(x_a, y_b) + 20 \cdot \log f - 147.55$
 
