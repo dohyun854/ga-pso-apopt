@@ -25,7 +25,7 @@ $m$: $I_h$의 평균
 
 $\min_{(x, y) \in S} \sqrt{\frac{1}{n} \sum_{i=1}^n (m - I_h)^2}$  
 
-$I_{h}$ = \displaystyle\sum_{j=1}^{n} I_j(x,y)$  
+$I_{h}$ = $\displaystyle\sum_{j=1}^{n} I_j(x,y)$  
 
 $I_{j(x,y)}$ = 20  \cdot  \log d(x, y) + 20  \cdot  \log f - 147.55$  
 
