@@ -1,0 +1,25 @@
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 이미지 불러오기
+image_path = r'C:\Users\jwdav\Downloads\dalleimage.webp'  # raw 문자열 사용
+image = Image.open(image_path)
+
+# 이미지를 회색조로 변환
+gray_image = image.convert('L')
+
+# 이미지 크기 조정
+resized_image = gray_image.resize((100, 100))  # 100x100 픽셀로 조정
+
+# 이미지를 numpy 배열로 변환
+image_array = np.array(resized_image)
+
+# 처리된 이미지 보기
+plt.imshow(image_array, cmap='gray')
+plt.axis('off')  # 축 숨기기
+plt.show()
+
+# 처리된 이미지를 저장
+output_path = 'output_image.jpg'  # 저장할 경로
+resized_image.save(output_path)
