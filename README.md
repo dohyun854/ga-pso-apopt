@@ -8,9 +8,9 @@
 - $m$: $I_h$의 평균  
 
 ### 목적 함수
-\[
+
 \min \sqrt{\sum_{i=1}^n \left( I(x, y) - a_i \right)^2}
-\]
+
 
 ### 제약 조건
 - $min{(d(x_a, y_b))} > 0$  
