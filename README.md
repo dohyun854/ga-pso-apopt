@@ -22,8 +22,5 @@ $\min \sqrt{\sum_{i=1}^n \left( I(x, y) - a_i \right)^2}$
 
 ### 제약 조건
 
-- $d(x_a, y_b) > 0$
-- $n\ge j\ge 1$
-- $min{(d(x_a, y_b))} > 0$  
-- $n\ge  1$  
-- $f\gt 0$  
+
+- $min{(d(x_a, y_b))} > 0$   
