@@ -1,18 +1,25 @@
 import cv2
 import numpy as np
 
-def extract_all_wall_coordinates(image_path):
-    # 1. 이미지 로드
+def preprocess_image(image_path):
+    """이미지를 이진화하고 내부와 외부를 분리합니다."""
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    
-    # 2. 이진화 (Thresholding)
-    _, binary_image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+    _, binary_image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY_INV)
+    return binary_image
 
-    # 3. 벽 픽셀 좌표 추출
+def extract_wall_and_internal_coordinates(image_path):
+    """벽과 내부 좌표를 추출하여 반환합니다."""
+    binary_image = preprocess_image(image_path)
+
+    # 외부의 모든 좌표를 추출합니다.
     wall_coordinates = []
+    internal_coordinates = []
+
     for y in range(binary_image.shape[0]):
         for x in range(binary_image.shape[1]):
-            if binary_image[y, x] == 255:  # 흰색 픽셀일 경우
+            if binary_image[y, x] == 255:  # 벽
                 wall_coordinates.append((x, y))
-    
-    return wall_coordinates
+            else:  # 내부
+                internal_coordinates.append((x, y))
+
+    return wall_coordinates, internal_coordinates
