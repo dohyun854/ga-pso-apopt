@@ -1,6 +1,26 @@
-# GA-PSO-APOPT
+### 변수
+- $d(x,y)$: AP와 점 $(x,y)$사이의 거리  
+- $f$: 공유기의 주파수(Mhz)  
+- $n$: 총 공유기 수  
+- $(x,y)$: 좌표 평면 위의 임의의 점  
+- $j$: $j$ 번째 공유기 $(1\leq j\leq n,\,j\in\mathbb{N})$  
+- $S$: 지도 픽셀 좌표의 전체 집합  
+- $m$: $I_h$의 평균  
 
-## 주의사항
-수정한 사람은 이름 옆에 체크하고 저장한담에 commit 연습ㄱㄱ
-(master에 바로 올리지 말고 자기 이름이나 닉넴으로 branch 만들어서 거기 commit 하셈. 내가 merge 해주겠음. master에 올리면 혼남(?))
-어케 하는지 잘 모르겠는 사람은 구글링하거나 gpt한테 물어보거나 나한테 물어보셈.
+### 목적 함수
+
+
+$min \ \sqrt{\frac{\sum_{i=1}^{n} (m - I_i)^2}{n}}$ 
+
+$I_{h(a,b)}=\sum_{i=1}^{n}I_i$ 
+
+$I_{j(a,b)} = 20 \cdot \log d(x_a, y_b) + 20 \cdot \log f - 147.55$ 
+
+$\min \sqrt{\sum_{i=1}^n \left( I(x, y) - a_i \right)^2}$
+
+
+
+### 제약 조건
+
+
+- $min{(d(x_a, y_b))} > 0$   

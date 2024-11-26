@@ -8,7 +8,6 @@ def preprocess_image(image_path):
     return binary_image
 
 def extract_wall_and_internal_coordinates(image_path):
-    """벽과 내부 좌표를 추출하여 반환합니다."""
     binary_image = preprocess_image(image_path)
 
     # 외부의 모든 좌표를 추출합니다.
@@ -21,5 +20,4 @@ def extract_wall_and_internal_coordinates(image_path):
                 wall_coordinates.append((x, y))
             else:  # 내부
                 internal_coordinates.append((x, y))
-
     return wall_coordinates, internal_coordinates

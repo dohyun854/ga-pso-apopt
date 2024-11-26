@@ -23,22 +23,11 @@ def objective_function(router_positions, internal_coordinates, frequency):
 
 # PSO 알고리즘
 def pso_optimization(internal_coordinates, num_routers, frequency, coverage_radius, max_iter=100, swarm_size=30):
-    # 내부 좌표를 넘파이 배열로 변환
-    internal_coordinates = np.array(internal_coordinates)
-
-    # 초기화: 랜덤하게 라우터 위치 선택
-    swarm = [internal_coordinates[np.random.choice(len(internal_coordinates), num_routers, replace=False)] for _ in range(swarm_size)]
     velocities = [np.random.uniform(-1, 1, (num_routers, 2)) for _ in range(swarm_size)]
     personal_best_positions = swarm.copy()
     personal_best_scores = [objective_function(pos, internal_coordinates, frequency) for pos in swarm]
     global_best_position = personal_best_positions[np.argmin(personal_best_scores)]
     global_best_score = min(personal_best_scores)
-
-    # 시각화 준비
-    fig, ax = plt.subplots()
-    x, y = zip(*internal_coordinates)
-    ax.scatter(x, y, s=1, label="Internal Area", color="gray")
-
     # PSO 메인 루프
     for iteration in range(max_iter):
         for i in range(swarm_size):
@@ -52,15 +41,6 @@ def pso_optimization(internal_coordinates, num_routers, frequency, coverage_radi
                 + cognitive * r1 * (personal_best_positions[i] - swarm[i])
                 + social * r2 * (global_best_position - swarm[i])
             )
-            # 위치 업데이트
-            swarm[i] = swarm[i] + velocities[i]
-
-            # 제한 조건: 폐곡선 내부만 허용
-            valid_positions = [pos for pos in swarm[i] if tuple(pos) in internal_coordinates]
-            if len(valid_positions) < num_routers:
-                valid_positions = internal_coordinates[np.random.choice(len(internal_coordinates), num_routers, replace=False)]
-            swarm[i] = np.array(valid_positions)
-
             # 점수 계산 및 업데이트
             score = objective_function(swarm[i], internal_coordinates, frequency)
             if score < personal_best_scores[i]:
@@ -72,27 +52,10 @@ def pso_optimization(internal_coordinates, num_routers, frequency, coverage_radi
         if personal_best_scores[current_best_idx] < global_best_score:
             global_best_position = personal_best_positions[current_best_idx]
             global_best_score = personal_best_scores[current_best_idx]
-
-        # 중간 결과 업데이트
-        router_x, router_y = zip(*global_best_position)
-        ax.clear()
-        ax.scatter(x, y, s=1, label="Internal Area", color="gray")
-        ax.scatter(router_x, router_y, color="red", label="Router Positions")
-        for router in global_best_position:
-            circle = plt.Circle(router, coverage_radius, color='blue', alpha=0.3)
-            ax.add_artist(circle)
-        ax.legend()
-        ax.set_title(f"Iteration {iteration + 1}, Best Score: {global_best_score}")
-        plt.pause(0.1)  # 주기적으로 화면 업데이트
-
-        print(f"Iteration {iteration + 1}, Best Score: {global_best_score}")
-
-    plt.show()
     return global_best_position
 
 # 프로그램 실행
 if __name__ == "__main__":
-    image_path = 'shame.png'
     wall_coords, internal_coords = extract_wall_and_internal_coordinates(image_path)
 
     # 라우터 배치 최적화 실행
@@ -101,3 +64,16 @@ if __name__ == "__main__":
     coverage_radius = 50  # arbitrary units
 
     best_positions = pso_optimization(internal_coords, num_routers, frequency, coverage_radius)
+    # 결과 시각화
+    x, y = zip(*internal_coords)
+    plt.scatter(x, y, s=1, label="Internal Area", color="gray")
+
+    router_x, router_y = zip(*best_positions)
+    plt.scatter(router_x, router_y, color="red", label="Router Positions")
+
+    for router in best_positions:
+        circle = plt.Circle(router, coverage_radius, color='blue', alpha=0.3)
+        plt.gca().add_artist(circle)
+
+    plt.legend()
+    plt.show()
