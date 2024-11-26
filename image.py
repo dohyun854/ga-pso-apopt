@@ -8,7 +8,6 @@ def preprocess_image(image_path):
     return binary_image
 
 def extract_wall_and_internal_coordinates(image_path):
-    """벽과 내부 좌표를 추출합니다."""
     binary_image = preprocess_image(image_path)
 
     # 외부의 모든 좌표를 추출합니다.
@@ -21,10 +20,4 @@ def extract_wall_and_internal_coordinates(image_path):
                 wall_coordinates.append((x, y))
             else:  # 내부
                 internal_coordinates.append((x, y))
-
     return wall_coordinates, internal_coordinates
-
-image_path = 'path_to_your_image.png'
-wall_coordinates, internal_coordinates = extract_wall_and_internal_coordinates(image_path)
-print("벽의 모든 픽셀 좌표:", wall_coordinates)
-print("내부 모든 픽셀 좌표:", internal_coordinates)
