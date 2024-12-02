@@ -1,6 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.spatial.distance import euclidean
+from PIL import Image, ImageDraw
 from image import extract_wall_and_internal_coordinates
 
 # 신호 세기 계산 함수
@@ -34,10 +34,10 @@ def pso_optimization(internal_coordinates, num_routers, frequency, coverage_radi
     global_best_position = personal_best_positions[np.argmin(personal_best_scores)]
     global_best_score = min(personal_best_scores)
 
-    # 시각화 준비
-    fig, ax = plt.subplots()
-    x, y = zip(*internal_coordinates)
-    ax.scatter(x, y, s=1, label="Internal Area", color="gray")
+    # 이미지 생성 준비
+    img_width, img_height = 500, 500  # 이미지 크기 설정
+    img = Image.new('RGB', (img_width, img_height), color='white')  # 흰 배경
+    draw = ImageDraw.Draw(img)
 
     # PSO 메인 루프
     for iteration in range(max_iter):
@@ -75,20 +75,33 @@ def pso_optimization(internal_coordinates, num_routers, frequency, coverage_radi
 
         # 중간 결과 업데이트
         router_x, router_y = zip(*global_best_position)
-        ax.clear()
-        ax.scatter(x, y, s=1, label="Internal Area", color="gray")
-        ax.scatter(router_x, router_y, color="red", label="Router Positions")
-        for router in global_best_position:
-            circle = plt.Circle(router, coverage_radius, color='blue', alpha=0.3)
-            ax.add_artist(circle)
-        ax.legend()
-        ax.set_title(f"Iteration {iteration + 1}, Best Score: {global_best_score}")
-        plt.pause(0.1)  # 주기적으로 화면 업데이트
+
+        # 이미지 초기화
+        img = Image.new('RGB', (img_width, img_height), color='white')  # 배경을 흰색으로
+        draw = ImageDraw.Draw(img)
+
+        # 내부 영역 그리기
+        for (x, y) in internal_coordinates:
+            # 내부 좌표들을 회색으로 표시
+            draw.point((x, y), fill='gray')
+
+        # 라우터 위치 그리기
+        for rx, ry in zip(router_x, router_y):
+            draw.point((rx, ry), fill='red')  # 라우터 위치는 빨간색으로
+
+            # 커버리지 영역 그리기
+            for angle in range(0, 360, 10):
+                x_offset = int(coverage_radius * np.cos(np.radians(angle)))
+                y_offset = int(coverage_radius * np.sin(np.radians(angle)))
+                draw.point((rx + x_offset, ry + y_offset), fill='blue')
+
+        # 출력 이미지 저장
+        output_image_path = 'optimized_ap_placement.png'
+        img.save(output_image_path)
 
         print(f"Iteration {iteration + 1}, Best Score: {global_best_score}")
 
-    plt.show()
-    return global_best_position
+    return output_image_path
 
 # 프로그램 실행
 if __name__ == "__main__":
@@ -100,4 +113,5 @@ if __name__ == "__main__":
     frequency = 2400  # MHz
     coverage_radius = 50  # arbitrary units
 
-    best_positions = pso_optimization(internal_coords, num_routers, frequency, coverage_radius)
+    output_image_path = pso_optimization(internal_coords, num_routers, frequency, coverage_radius)
+    print(f"Optimized AP Placement Image saved at: {output_image_path}")

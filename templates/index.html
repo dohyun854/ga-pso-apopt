@@ -20,17 +20,21 @@
                 <input type="file" name="file" id="file" class="form-control" required>
             </div>
             
+            <!-- AP 개수 숫자로 입력 가능하게 수정 -->
             <div class="mb-3">
-                <label for="ap_count" class="form-label">AP 개수 선택:</label>
-                <select name="ap_count" id="ap_count" class="form-select">
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <!-- 필요한 만큼 옵션 추가 가능 -->
+                <label for="ap_count" class="form-label">AP 개수 입력:</label>
+                <input type="number" name="ap_count" id="ap_count" class="form-control" min="1" required>
+            </div>
+
+            <!-- 알고리즘 선택 항목 추가 -->
+            <div class="mb-3">
+                <label for="algorithm" class="form-label">알고리즘 선택:</label>
+                <select name="algorithm" id="algorithm" class="form-select">
+                    <option value="pso">PSO (Particle Swarm Optimization)</option>
+                    <option value="ga">GA (Genetic Algorithm)</option>
                 </select>
             </div>
-            
+
             <button type="submit" class="btn btn-primary w-100">제출</button>
         </form>
     </div>
