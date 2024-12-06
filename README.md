@@ -16,9 +16,6 @@ $I_{h(a,b)}=\sum_{i=1}^{n}I_i$
 
 $I_{j(a,b)} = 20 \cdot \log d(x_a, y_b) + 20 \cdot \log f - 147.55$ 
 
-$\min \sqrt{\sum_{i=1}^n \left( I(x, y) - a_i \right)^2}$
-
-
 
 ### 제약 조건
 
